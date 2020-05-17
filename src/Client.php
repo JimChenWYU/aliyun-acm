@@ -5,7 +5,6 @@ namespace Aliyun\Acm;
 use GuzzleHttp\Exception\BadResponseException;
 use JimChen\Utils\Collection;
 use JimChen\Utils\Traits\HasHttpRequest;
-use Psr\Http\Message\ResponseInterface;
 
 final class Client
 {
@@ -312,15 +311,6 @@ final class Client
         } catch (BadResponseException $e) {
             throw new InvalidResponseException($e->getMessage(), $e->getResponse()->getStatusCode(), $e);
         }
-    }
-
-    /**
-     * @param ResponseInterface $response
-     * @return string
-     */
-    protected function unwrapResponse(ResponseInterface $response)
-    {
-        return $response->getBody()->getContents();
     }
 
     /**
