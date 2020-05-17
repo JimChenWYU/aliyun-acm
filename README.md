@@ -46,7 +46,7 @@ $isPublish = $client->publish('your dataId', 'your group', '{"a":1}');
  */
 $isRemove = $client->remove('your dataId', 'your group');
 /** 
- * 检查配置是否更新，如果检测到没有更新会立即返回，否则会进行长轮询等待30秒
+ * 检查配置是否更新，如果检测到更新会立即返回true，否则会进行长轮询等待30秒
  * @see https://help.aliyun.com/document_detail/64132.html?spm=a2c4g.11186623.6.577.5b9111b6a3vgi8
  * @var bool $isModify 
  */
