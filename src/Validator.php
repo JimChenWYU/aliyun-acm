@@ -6,18 +6,21 @@ final class Validator
 {
     const VALID_STR = array('_','-', '.', ':');
 
-    public static function isIpv4($ipAddress){
+    public static function isIpv4($ipAddress)
+    {
         return is_numeric(ip2long($ipAddress));
     }
 
-    public static function checkDataId($dataId){
-        if(!is_string($dataId)){
+    public static function checkDataId($dataId)
+    {
+        if (!is_string($dataId)) {
             throw new InvalidArgumentException('Invalid dataId input.');
         }
     }
 
-    public static function checkGroup($group){
-        if(!is_string($group) || empty($group)){
+    public static function checkGroup($group)
+    {
+        if (!is_string($group) || empty($group)) {
             return 'DEFAULT_GROUP';
         }
 

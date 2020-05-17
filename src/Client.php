@@ -94,7 +94,8 @@ final class Client
      *
      * @return Server[]
      */
-    public function getServerList(){
+    public function getServerList()
+    {
         return $this->serverList->all();
     }
 
@@ -114,17 +115,18 @@ final class Client
     /**
      * 更新获取 acm 服务地址
      */
-    public function refreshAcmServerIpList(){
+    public function refreshAcmServerIpList()
+    {
         $this->serverList = Collection::make();
         $serverRawList = $this->getAcmServerIp();
-        if(is_string($serverRawList)) {
+        if (is_string($serverRawList)) {
             $serverArray = array_filter(explode("\n", $serverRawList));
-            foreach ($serverArray as $value){
+            foreach ($serverArray as $value) {
                 $value = trim($value);
                 $singleServerList = explode(':', $value);
-                if(count($singleServerList) === 1){
+                if (count($singleServerList) === 1) {
                     $singleServer = new Server($value, self::DEFAULT_PORT, Validator::isIpv4($value));
-                }else{
+                } else {
                     $singleServer = new Server($singleServerList[0], $singleServerList[1], Validator::isIpv4($value));
                 }
                 $this->serverList->put($singleServer->getUrl(), $singleServer);
@@ -208,7 +210,8 @@ final class Client
      * @return bool
      * @throws InvalidResponseException
      */
-    public function publish($dataId, $group, $content){
+    public function publish($dataId, $group, $content)
+    {
         Validator::checkAccessKey($this->accessKey);
         Validator::checkSecretKey($this->secretKey);
         Validator::checkDataId($dataId);
@@ -223,7 +226,7 @@ final class Client
             'tenant'  => $this->nameSpace,
             'content' => $content,
         ];
-        if(is_string($this->appName)){
+        if (is_string($this->appName)) {
             $formData['appName'] = $this->appName;
         }
         $headers = $this->getCommonHeaders($group);
@@ -243,7 +246,8 @@ final class Client
      * @return bool
      * @throws InvalidResponseException
      */
-    public function remove($dataId, $group){
+    public function remove($dataId, $group)
+    {
         Validator::checkAccessKey($this->accessKey);
         Validator::checkSecretKey($this->secretKey);
         Validator::checkDataId($dataId);
@@ -272,7 +276,8 @@ final class Client
      * @param $group
      * @return array
      */
-    private function getCommonHeaders($group){
+    private function getCommonHeaders($group)
+    {
         $headers = array();
 //        $headers['Diamond-Client-AppName'] = 'ACM-SDK-PHP';
         $headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
@@ -283,11 +288,11 @@ final class Client
         $headers['timeStamp'] = $ts;
 
         $signStr = $this->nameSpace.'+';
-        if(is_string($group)){
+        if (is_string($group)) {
             $signStr .= $group . '+';
         }
         $signStr = $signStr.$ts;
-        $headers['Spas-Signature'] = base64_encode(hash_hmac('sha1', $signStr, $this->secretKey,true));
+        $headers['Spas-Signature'] = base64_encode(hash_hmac('sha1', $signStr, $this->secretKey, true));
         return $headers;
     }
 
@@ -297,7 +302,8 @@ final class Client
      * @return array
      * @throws InvalidResponseException
      */
-    private function getAcmServerIp(){
+    private function getAcmServerIp()
+    {
         if (empty($this->endpoint)) {
             throw new InvalidArgumentException(__CLASS__ .'::endpoint can not be null.');
         }
