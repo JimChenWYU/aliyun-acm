@@ -6,7 +6,7 @@
 ## Installing
 
 ```shell
-$ composer require aliyun/acm -vvv
+$ composer require jimchen/aliyun-acm -vvv
 ```
 
 ## Usage
